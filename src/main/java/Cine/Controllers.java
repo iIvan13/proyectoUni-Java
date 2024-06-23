@@ -12,7 +12,7 @@ public class Controllers {
 
         System.out.println("Ingrese su nombre:");
         String name = scan.nextLine();
-
+        
         System.out.println("Ingrese su correo electrónico:");
         String email = scan.nextLine();
 

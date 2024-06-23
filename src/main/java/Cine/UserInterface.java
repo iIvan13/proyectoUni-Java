@@ -10,10 +10,6 @@ public class UserInterface {
         System.out.println("     Bienvenido a CinePlanet Santa Clara          ");
         System.out.println("                                                  ");
         System.out.println("**************************************************");
-        System.out.println("                                                  ");
-        System.out.println("  - Inicie Sesión Para Continuar                  ");
-        System.out.println("                                                  ");
-        System.out.println("**************************************************");
     }
 
     public static void MovieListings(boolean isLogin) {

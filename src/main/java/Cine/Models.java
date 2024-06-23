@@ -58,6 +58,8 @@ public class Models {
             isLogin = login;
         }
 
+        
+
         // Método toString para representar la información del usuario 
         @Override
         public String toString() {
