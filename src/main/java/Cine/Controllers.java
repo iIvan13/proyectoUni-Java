@@ -63,6 +63,28 @@ public class Controllers {
         }
     }
 
+    @SuppressWarnings("resource")
+    public static String SelectSeat() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("**************************************************");
+        System.out.println("              Seleccione su asiento               ");
+        System.out.println("**************************************************");
+        System.out.println("                  Asientos                        ");
+        System.out.println("**************************************************");
+        InterfaceSeats(0, "");
+
+        System.out.println("Ingrese la fila y el número del asiento");
+        System.out.println("Fila (A - I):");
+        String block = scan.nextLine();
+        System.out.println("Numero de asiento (1 - 9):");
+        int col = scan.nextInt();
+
+        InterfaceSeats(col, block);
+
+        return block.toUpperCase() + "-" + col;
+    }
+
     public static int SelectCombo() {
         return 0;
     }

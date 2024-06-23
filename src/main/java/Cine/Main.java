@@ -18,6 +18,10 @@ public class Main {
         Movie movie = SelectMovie(user.isLogin());
         System.out.println(movie);
 
+        // Seleccion de asiento
+        String seat = SelectSeat();
+        System.out.println(seat);
+
         // seleccion de combo
         ViewCombo();
 
