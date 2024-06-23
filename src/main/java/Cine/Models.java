@@ -75,14 +75,20 @@ public class Models {
 
         // Atributos de la clase Movie
         private String title;
-        private int year;
         private String director;
+        private int duration;
+        private String genre;
+        private int minAge;
+        private String synopsis;
 
         // Constructor de la clase Movie
-        public Movie(String title, int year, String director) {
+        public Movie(String title, String director, int duration, String genre, int minAge, String synopsis) {
             this.title = title;
-            this.year = year;
             this.director = director;
+            this.duration = duration;
+            this.genre = genre;
+            this.minAge = minAge;
+            this.synopsis = synopsis;
         }
 
         // Métodos getters y setters para acceder y modificar los atributos
@@ -94,14 +100,6 @@ public class Models {
             this.title = title;
         }
 
-        public int getYear() {
-            return year;
-        }
-
-        public void setYear(int year) {
-            this.year = year;
-        }
-
         public String getDirector() {
             return director;
         }
@@ -110,12 +108,42 @@ public class Models {
             this.director = director;
         }
 
-        // Método toString para representar la información de la película
+        public int getDuration() {
+            return duration;
+        }
+
+        public void setDuration(int duration) {
+            this.duration = duration;
+        }
+
+        public String getGenre() {
+            return genre;
+        }
+
+        public void setGenre(String genre) {
+            this.genre = genre;
+        }
+
+        public int getMinAge() {
+            return minAge;
+        }
+
+        public void setMinAge(int minAge) {
+            this.minAge = minAge;
+        }
+
+        public String getSynopsis() {
+            return synopsis;
+        }
+
+        public void setSynopsis(String synopsis) {
+            this.synopsis = synopsis;
+        }
+
         @Override
         public String toString() {
             return "Movie{"
                     + "title='" + title + '\''
-                    + ", year=" + year
                     + ", director='" + director + '\''
                     + '}';
         }

@@ -15,17 +15,8 @@ public class Main {
         User user = Login();
 
         // Seleccion de película
-        MovieListings(user.isLogin());
-
-        // Seleccion de asiento
-        InterfaceSeats(user, 0, 0);
-        System.out.println("Ingrese la fila de su asiento (Total de Filas es 8):");
-        int block = scan.nextInt();
-        System.out.println("Ingrese la columna de su asiento (Total de Columnas es 8:)");
-        int col = scan.nextInt();
-
-        InterfaceSeats(user, col, block);
-        System.out.println("Usted eligió el asiento de la fila " + block + " y la columna " + col);
+        Movie movie = SelectMovie(user.isLogin());
+        System.out.println(movie);
 
         // seleccion de combo
         ViewCombo();

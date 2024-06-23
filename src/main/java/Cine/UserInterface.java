@@ -1,5 +1,7 @@
 package Cine;
 
+import Cine.Models.Movie;
+
 public class UserInterface {
 
     public static void Welcome() {
@@ -18,15 +20,47 @@ public class UserInterface {
         if (!isLogin) {
             return;
         }
-        System.out.println("************************************************************");
-        System.out.println("                                                            ");
-        System.out.println("           Cartelera de Películas                           ");
-        System.out.println("                                                            ");
-        System.out.println("************************************************************");
 
-        Controllers.SelectMovie();
+        System.out.println("************************************************************");
+        System.out.println("                      Lista de Películas                    ");
+        System.out.println("************************************************************");
+        System.out.println();
+        
+        System.out.println("Seleccione una película para ver más información ingresando el número correspondiente:");
+        System.out.println();
+    }
+
+    public static void DisplayMovieDetails(Movie movie) {
+        String title = movie.getTitle();
+        String director = movie.getDirector();
+        int duration = movie.getDuration();
+        String genre = movie.getGenre();
+        int minAge = movie.getMinAge();
+        String synopsis = movie.getSynopsis();
+
+        System.out.println("**********************************************************");
+        System.out.println("                   Detalles de la Película                ");
+        System.out.println("**********************************************************");
+        System.out.println();
+    
+        System.out.println("Título:    " + title);
+        System.out.println("Director:  " + director);
+        System.out.println("Duración:  " + duration + " minutos");
+        System.out.println("Género:    " + genre);
+        System.out.println("Edad mínima recomendada: " + minAge + "+");
+        System.out.println();
+        System.out.println("Sinopsis:");
+        System.out.println("----------------------------------------------------------");
+        System.out.println(synopsis);
+        System.out.println("----------------------------------------------------------");
+        System.out.println();
+
+        System.out.println("Opciones:");
+        System.out.println("1. Continuar");
+        System.out.println("2. Volver");
 
     }
+    
 
     public static void InterfaceSeats(Models.User user, int col, int block) {
         String name = user.getNombre().toUpperCase();
