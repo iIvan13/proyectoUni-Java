@@ -8,37 +8,32 @@ public class Controllers {
 
     @SuppressWarnings("resource")
     public static User Login() {
-
         Scanner scan = new Scanner(System.in);
-        String name, email, dni;
 
         System.out.println("Ingrese su nombre:");
-        name = scan.nextLine();
+        String name = scan.nextLine();
 
         System.out.println("Ingrese su correo electrónico:");
-        email = scan.nextLine();
+        String email = scan.nextLine();
 
         System.out.println("Ingrese su DNI:");
-        dni = scan.nextLine();
+        String dni = scan.nextLine();
 
         if (dni.length() < 8) {
             System.out.println("DNI menor a 8 digitos o el DNI es incorrecto");
             return null;
-        } else {
-            User user = new User(name, email, dni);
-            return user;
         }
+
+        return new User(name, email, dni);
     }
 
     @SuppressWarnings("resource")
     public static Movie SelectMovie(boolean isLoggedIn) {
-        boolean isSelectedMovie = false;
-
-        Movie movie = null;
         Scanner scan = new Scanner(System.in);
+
         Movie[] movies = Data.GetMovies();
 
-        while (!isSelectedMovie) {
+        while (true) {
             MovieListings(isLoggedIn);
 
             for (int i = 0; i < movies.length; i++) {
@@ -50,24 +45,22 @@ public class Controllers {
             System.out.println("**************************************************");
 
             int movieIndex = scan.nextInt();
+            if (movieIndex < 1 || movieIndex > movies.length) {
+                System.out.println("Opción incorrecta. Intente de nuevo.");
+                continue;
+            }
+
             DisplayMovieDetails(movies[movieIndex - 1]);
 
             int option = scan.nextInt();
-
             if (option == 1) {
-                isSelectedMovie = true;
-                movie = movies[movieIndex - 1];
+                return movies[movieIndex - 1];
             } else if (option == 2) {
-                System.out.println("Puede seleccionar otro título");
+                System.out.println("");
+                System.out.println("Puede elegir otra pelicula");
                 System.out.println();
-                isSelectedMovie = false;
-
-            } else {
-                System.out.println("Opción incorrecta");
             }
         }
-
-        return movie;
     }
 
     public static int SelectCombo() {
