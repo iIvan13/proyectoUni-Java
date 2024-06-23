@@ -10,9 +10,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
+        // Inicio
         Welcome();
 
-        User user = Login();
+        User user = NewUser();
 
         // Seleccion de película
         Movie movie = SelectMovie(user.isLogin());
@@ -25,6 +26,9 @@ public class Main {
         // seleccion de combo
         ViewCombo();
 
+        // Retorno del ticked en html
+
+        // Cierre del programa
         scan.close();
     }
 

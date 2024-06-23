@@ -7,7 +7,7 @@ import Cine.Models.*;
 public class Controllers {
 
     @SuppressWarnings("resource")
-    public static User Login() {
+    public static User NewUser() {
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Ingrese su nombre:");
