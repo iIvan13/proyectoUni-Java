@@ -12,23 +12,34 @@ public class Main {
 
         // Inicio
         Welcome();
-
         User user = NewUser();
 
         // Seleccion de película
         Movie movie = SelectMovie(user.isLogin());
-        System.out.println(movie);
+        user.setSelectedMovie(movie);
+        user.setTotal(movie.getPrice());
 
         // Seleccion de asiento
         String seat = SelectSeat();
-        System.out.println(seat);
+        user.setSelectedSeat(seat);
 
-        // seleccion de combo
-        ViewCombo();
+        // Selección de Combo
+        System.out.println("Desea seleccionar un combo?");
+        System.out.println("1. Si");
+        System.out.println("2. No");
+        int option = scan.nextInt();
+        Combo combo = SelectCombo(option);
 
-        // Retorno del ticked en html
+        // Mostrar la boleta de compra
+        if (combo != null) {
+            user.setSelectedCombo(combo);
+            user.setTotal(user.getTotal() + combo.getPrice());
+            GetTicked(user);
+        } else {
+            System.out.println("No se ha seleccionado un combo");
+            GetTicked(null);
+        }
 
-        // Cierre del programa
         scan.close();
     }
 

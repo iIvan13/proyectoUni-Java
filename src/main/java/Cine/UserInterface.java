@@ -1,6 +1,6 @@
 package Cine;
 
-import Cine.Models.Movie;
+import Cine.Models.*;
 
 public class UserInterface {
 
@@ -44,6 +44,7 @@ public class UserInterface {
         System.out.println("Duración:  " + duration + " minutos");
         System.out.println("Género:    " + genre);
         System.out.println("Edad mínima recomendada: " + minAge + "+");
+        System.out.println("Precio:   s/" + movie.getPrice());
         System.out.println();
         System.out.println("Sinopsis:");
         System.out.println("----------------------------------------------------------");
@@ -107,8 +108,16 @@ public class UserInterface {
     }
     
  
-    public static void ViewCombo() {
-
+    public static void ViewDetailsCombo(Combo combo) {
+        System.out.println("**********************************************************");
+        System.out.println("                   Detalles del Combo                    ");
+        System.out.println("**********************************************************");
+        System.out.println();
+        System.out.println("Combo: " + combo.getName());
+        System.out.println("Descripción: " + combo.getDescription());
+        System.out.println("Precio: s/" + combo.getPrice());
+        System.out.println();
     }
+        
 
 }

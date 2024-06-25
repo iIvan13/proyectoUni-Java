@@ -12,9 +12,6 @@ public class Controllers {
 
         System.out.println("Ingrese su nombre:");
         String name = scan.nextLine();
-        
-        System.out.println("Ingrese su correo electrónico:");
-        String email = scan.nextLine();
 
         System.out.println("Ingrese su DNI:");
         String dni = scan.nextLine();
@@ -24,7 +21,7 @@ public class Controllers {
             return null;
         }
 
-        return new User(name, email, dni);
+        return new User(name, dni, null, null, null, 0.0);
     }
 
     @SuppressWarnings("resource")
@@ -40,6 +37,8 @@ public class Controllers {
                 System.out.println((i + 1) + ". Título: " + movies[i].getTitle());
                 System.out.println("   Género: " + movies[i].getGenre());
                 System.out.println("   Edad mínima: " + movies[i].getMinAge() + "+");
+                System.out.println("   Duración: " + movies[i].getDuration() + " minutos");
+                System.out.println("   Precio: s/" + movies[i].getPrice());
                 System.out.println();
             }
             System.out.println("**************************************************");
@@ -85,10 +84,73 @@ public class Controllers {
         return block.toUpperCase() + "-" + col;
     }
 
-    public static int SelectCombo() {
-        return 0;
+    @SuppressWarnings("resource")
+    public static Combo SelectCombo(int option) {
+        Scanner scan = new Scanner(System.in);
+
+        if (option == 2) return null; 
+
+        Combo[] combos = Data.GetCombos();
+        Combo returnCombo = null;
+
+        if (option == 1) {
+            System.out.println("************************************************************");
+            System.out.println("                      Combos Disponibles                    ");
+            System.out.println("************************************************************");
+            System.out.println();
+
+            for (int i = 0; i < combos.length; i++) {
+                System.out.println((i + 1) + ". " + combos[i].getName().toUpperCase());
+                System.out.println("   " + combos[i].getDescription());
+                System.out.println("   Precio: s/" + combos[i].getPrice());
+                System.out.println();
+            }
+
+            System.out.println("Seleccione un combo ingresando el número correspondiente:");
+            System.out.println();
+
+            int selectCombo = scan.nextInt();
+            ViewDetailsCombo(combos[selectCombo - 1]);
+            
+            System.out.println("Opciones:");
+            System.out.println("1. Continuar con la compra de la boleto");
+            System.out.println("2. Volver");
+            option = scan.nextInt();
+
+            switch (option) {
+                case 1 -> returnCombo = combos[selectCombo - 1];
+                case 2 -> {
+                    return SelectCombo(1);
+                }
+                default -> {
+                    System.out.println("Opción incorrecta. Intente de nuevo.");
+                    ViewDetailsCombo(combos[selectCombo - 1]);
+                }
+            }
+        }
+        return returnCombo;
     }
 
-    public static void Boleto() {
+    public static void GetTicked(User user) {
+        if (user == null) return;
+        
+        System.out.println("**************************************************");
+        System.out.println("                     Boleta                       ");
+        System.out.println("**************************************************");
+        System.out.println();
+        System.out.println("Nombre: " + user.getName());
+        System.out.println("DNI: " + user.getDni());
+        System.out.println("Pelicula: " + user.getSelectedMovie().getTitle());
+        System.out.println("Asiento: " + user.getSelectedSeat());
+
+        if (user.getSelectedCombo() != null) {
+            System.out.println("Combo: " + user.getSelectedCombo().getName());
+        }
+        System.out.println("**************************************************");
+        System.out.println("Total: s/" + user.getTotal());
+
+        System.out.println("**************************************************");
+        System.out.println("               Gracias por su compra               ");
+        System.out.println("**************************************************");
     }
 }
