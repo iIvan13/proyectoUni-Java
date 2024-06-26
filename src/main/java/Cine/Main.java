@@ -1,5 +1,4 @@
 package Cine;
-
 import java.util.Scanner;
 import static Cine.UserInterface.*;
 import Cine.Models.*;
@@ -37,7 +36,7 @@ public class Main {
             GetTicked(user);
         } else {
             System.out.println("No se ha seleccionado un combo");
-            GetTicked(null);
+            GetTicked(user);
         }
 
         scan.close();

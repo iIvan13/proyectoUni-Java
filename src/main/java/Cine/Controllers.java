@@ -146,6 +146,7 @@ public class Controllers {
         if (user.getSelectedCombo() != null) {
             System.out.println("Combo: " + user.getSelectedCombo().getName());
         }
+        
         System.out.println("**************************************************");
         System.out.println("Total: s/" + user.getTotal());
 
