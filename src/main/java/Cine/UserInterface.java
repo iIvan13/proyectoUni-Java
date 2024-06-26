@@ -13,9 +13,7 @@ public class UserInterface {
     }
 
     public static void MovieListings(boolean isLogin) {
-        if (!isLogin) {
-            return;
-        }
+        if (!isLogin) return;
 
         System.out.println("************************************************************");
         System.out.println("                      Lista de Películas                    ");
@@ -79,7 +77,6 @@ public class UserInterface {
                 System.out.println("");
             }
         }
-
     
         if (col > 0 && currentblock > 0) {
             seats[currentblock - 1][col - 1] = true;
