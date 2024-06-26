@@ -1,4 +1,16 @@
 package Cine;
+
+/**
+ * @author { 
+ *  - Ivan Moises Todelano Toledo
+ *  - Sebastian Yamir Choquehuanca Cerna
+ *  - Jim Menly Romani Pariona
+ *  - Mikel Cayllahua Morales
+ *  - Jair Alexander Porras Palpa
+ *  - Jordy Jorge Chuco Ortega
+ * }
+*/
+
 import java.util.Scanner;
 import static Cine.UserInterface.*;
 import Cine.Models.*;
