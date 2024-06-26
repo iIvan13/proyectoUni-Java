@@ -50,8 +50,6 @@ public class Main {
             System.out.println("No se ha seleccionado un combo");
             GetTicked(user);
         }
-
-        scan.close();
     }
 
 }

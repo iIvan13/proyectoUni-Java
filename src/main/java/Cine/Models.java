@@ -83,18 +83,6 @@ public class Models {
             this.total = total;
         }
 
-        // Método toString para representar la información del usuario 
-        @Override
-        public String toString() {
-            return "Usuario{"
-                    + "nombre='" + name + '\''
-                    + ", password='" + dni + '\''
-                    + ", isLogin=" + isLogin + '\''
-                    + ", selectedMovie=" + selectedMovie + '\''
-                    + ", selectedSeat=" + selectedSeat + '\''
-                    + ", selectedCombo=" + selectedCombo + '\''
-                    + '}';
-        }
     }
 
     // Clase para representar una Película.
@@ -177,13 +165,6 @@ public class Models {
             this.price = price;
         }
 
-        @Override
-        public String toString() {
-            return "Movie{"
-                    + "title='" + title + '\''
-                    + ", director='" + director + '\''
-                    + '}';
-        }
     }
 
     // Clase para representar el Combo.
