@@ -1,6 +1,6 @@
+Cine\Models.class
+Cine\Controllers.class
 Cine\Main.class
 Cine\Models$User.class
-Cine\Models.class
 Cine\Models$Movie.class
-Cine\Controllers.class
 Cine\UserInterface.class

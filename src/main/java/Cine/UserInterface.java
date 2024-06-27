@@ -19,9 +19,6 @@ public class UserInterface {
         System.out.println("                      Lista de Películas                    ");
         System.out.println("************************************************************");
         System.out.println();
-        
-        System.out.println("Seleccione una película para ver más información ingresando el número correspondiente:");
-        System.out.println();
     }
 
     public static void DisplayMovieDetails(Movie movie) {

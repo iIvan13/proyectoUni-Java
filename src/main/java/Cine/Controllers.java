@@ -39,6 +39,10 @@ public class Controllers {
                 System.out.println("   Precio: s/" + movies[i].getPrice());
                 System.out.println();
             }
+
+            System.out.println("Seleccione una película para ver más información ingresando el número correspondiente:");
+            System.out.println();
+
             System.out.println("**************************************************");
 
             int movieIndex = scan.nextInt();
