@@ -18,6 +18,7 @@ import static Cine.Controllers.*;
 
 public class Main {
 
+    @SuppressWarnings("resource")
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 

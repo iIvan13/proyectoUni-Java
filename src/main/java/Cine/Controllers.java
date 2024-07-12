@@ -6,6 +6,7 @@ import Cine.Models.*;
 
 public class Controllers {
 
+    @SuppressWarnings("resource")
     public static User NewUser() {
         Scanner scan = new Scanner(System.in);
 
@@ -23,6 +24,7 @@ public class Controllers {
         return new User(name, dni, null, null, null, 0.0);
     }
 
+    @SuppressWarnings("resource")
     public static Movie SelectMovie(boolean isLoggedIn) {
         Scanner scan = new Scanner(System.in);
 
@@ -64,6 +66,7 @@ public class Controllers {
         }
     }
 
+    @SuppressWarnings("resource")
     public static String SelectSeat() {
         Scanner scan = new Scanner(System.in);
 
@@ -85,6 +88,7 @@ public class Controllers {
         return block.toUpperCase() + "-" + col;
     }
 
+    @SuppressWarnings("resource")
     public static Combo SelectCombo(int option) {
         Scanner scan = new Scanner(System.in);
 
