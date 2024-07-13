@@ -1,5 +1,7 @@
 package Cine;
 
+import java.util.List;
+
 /**
  * @author { 
  *  - Ivan Moises Todelano Toledo
@@ -12,44 +14,48 @@ package Cine;
 */
 
 import java.util.Scanner;
-import static Cine.UserInterface.*;
 import Cine.Models.*;
 import static Cine.Controllers.*;
 
 public class Main {
-
-    @SuppressWarnings("resource")
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+        try (Scanner scan = new Scanner(System.in)) {
+            // Inicio
+            Cine cineSantaClara = Welcome();
+            User user = NewUser();
 
-        // Inicio
-        Welcome();
-        User user = NewUser();
+            // Seleccion de película
+            Movie movie = SelectMovie(cineSantaClara.getMovies());
 
-        // Seleccion de película
-        Movie movie = SelectMovie(user.isLogin());
-        user.setSelectedMovie(movie);
-        user.setTotal(movie.getPrice());
+            // Selección de la hora
+            Movie currentMovie = SelectSchedule(movie);
+            user.setSelectedMovie(movie);
 
-        // Seleccion de asiento
-        String seat = SelectSeat();
-        user.setSelectedSeat(seat);
+            // Seleccion de asiento
+            List<String> seats = selectSeats();
+            user.setSelectedSeats(seats);
 
-        // Selección de Combo
-        System.out.println("Desea seleccionar un combo?");
-        System.out.println("1. Si");
-        System.out.println("2. No");
-        int option = scan.nextInt();
-        Combo combo = SelectCombo(option);
+            // Seleccion de la cantidad de Boletas a comprar (la cantidad depende de cuantos
+            // asientos se seleccionaron)
+            Entry[] entries = SelectEntries(seats.size());
+            user.setEntries(entries);
 
-        // Mostrar la boleta de compra
-        if (combo != null) {
-            user.setSelectedCombo(combo);
-            user.setTotal(user.getTotal() + combo.getPrice());
+            // Selección de Combo
+            System.out.println("Desea seleccionar un combo?");
+            System.out.println("1. Si");
+            System.out.println("2. No");
+            int option = scan.nextInt();
+            if (option == 1) {
+                Combo combo = SelectCombo();
+                user.setSelectedCombo(combo);
+            } else {
+                System.out.println("No se ha seleccionado un combo");
+            }
+
+            // Mostrar la boleta de compra
             GetTicked(user);
-        } else {
-            System.out.println("No se ha seleccionado un combo");
-            GetTicked(user);
+        } catch (Exception e) {
+            System.err.println("Ha ocurrido un error: " + e.getMessage());
         }
     }
 

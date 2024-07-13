@@ -1,28 +1,52 @@
 package Cine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Models {
 
-    //Clase para representar un Usuario del sistema.
+    public static class Cine {
+        // Atributos de la clase Cine
+        private final String name;
+        private final Movie[] movies;
+
+        // Constructor de la clase Cine
+        public Cine(String name, Movie[] movies) {
+            this.name = name;
+            this.movies = movies;
+        }
+
+        // Métodos getters para acceder a los atributos
+        public String getName() {
+            return name;
+        }
+
+        public Movie[] getMovies() {
+            return movies;
+        }
+
+    }
+
+    // Clase para representar un Usuario del sistema.
     public static class User {
 
         // Atributos de la clase Usuario
         private String name;
         private String dni;
-        private boolean isLogin = false;
         private Movie selectedMovie;
-        private String selectedSeat;
+        private List<String> selectedSeats = new ArrayList<>();
+        private Entry[] entries;
         private Combo selectedCombo;
         private double total;
 
         // Constructor de la clase Usuario
-        public User(String name, String dni, Movie movie, String seat, Combo combo, double total) {
+        public User(String name, String dni, Movie movie, List<String> seat, Entry[] entries, Combo combo) {
             this.name = name;
             this.dni = dni;
-            this.isLogin = true;
             this.selectedMovie = movie;
-            this.selectedSeat = seat;
+            this.selectedSeats = seat;
+            this.entries = entries;
             this.selectedCombo = combo;
-            this.total = total;
         }
 
         // Métodos getters y setters para acceder y modificar los atributos
@@ -34,21 +58,12 @@ public class Models {
             this.name = name;
         }
 
-
         public String getDni() {
             return dni;
         }
 
         public void setDni(String dni) {
             this.dni = dni;
-        }
-
-        public boolean isLogin() {
-            return isLogin;
-        }
-
-        public void setLogin(boolean login) {
-            isLogin = login;
         }
 
         public Movie getSelectedMovie() {
@@ -59,12 +74,20 @@ public class Models {
             this.selectedMovie = selectedMovie;
         }
 
-        public String getSelectedSeat() {
-            return selectedSeat;
+        public List<String> getSelectedSeat() {
+            return selectedSeats;
         }
 
-        public void setSelectedSeat(String selectedSeat) {  
-            this.selectedSeat = selectedSeat;
+        public void setSelectedSeats(List<String> seats) {
+            this.selectedSeats = seats;
+        }
+
+        public Entry[] getEntries() {
+            return entries;
+        }
+
+        public void setEntries(Entry[] entries) {
+            this.entries = entries;
         }
 
         public Combo getSelectedCombo() {
@@ -73,14 +96,15 @@ public class Models {
 
         public void setSelectedCombo(Combo selectedCombo) {
             this.selectedCombo = selectedCombo;
-        }    
-        
-        public double getTotal() {
-            return total;
         }
 
-        public void setTotal(double total) {
-            this.total = total;
+        public double getTotal() {
+            for (Entry entry : entries) {
+                this.total += entry.getPrice();
+            }
+            double priceCombo = this.selectedCombo.getPrice();
+            this.total = this.total + priceCombo;
+            return total;
         }
 
     }
@@ -89,23 +113,24 @@ public class Models {
     public static class Movie {
 
         // Atributos de la clase Movie
-        private String title;
-        private String director;
-        private int duration;
-        private String genre;
-        private int minAge;
-        private String synopsis;
-        private double price;
+        private final String title;
+        private final String director;
+        private final int duration;
+        private final String genre;
+        private final int minAge;
+        private final String synopsis;
+        private List<String> movieSchedules;
 
         // Constructor de la clase Movie
-        public Movie(String title, String director, int duration, String genre, int minAge, String synopsis, double price) {
+        public Movie(String title, String director, int duration, String genre, int minAge, String synopsis,
+                List<String> movieSchedules) {
             this.title = title;
             this.director = director;
             this.duration = duration;
             this.genre = genre;
             this.minAge = minAge;
             this.synopsis = synopsis;
-            this.price = price;
+            this.movieSchedules = movieSchedules;
         }
 
         // Métodos getters y setters para acceder y modificar los atributos
@@ -113,58 +138,57 @@ public class Models {
             return title;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
         public String getDirector() {
             return director;
-        }
-
-        public void setDirector(String director) {
-            this.director = director;
         }
 
         public int getDuration() {
             return duration;
         }
 
-        public void setDuration(int duration) {
-            this.duration = duration;
-        }
-
         public String getGenre() {
             return genre;
-        }
-
-        public void setGenre(String genre) {
-            this.genre = genre;
         }
 
         public int getMinAge() {
             return minAge;
         }
 
-        public void setMinAge(int minAge) {
-            this.minAge = minAge;
-        }
-
         public String getSynopsis() {
             return synopsis;
         }
 
-        public void setSynopsis(String synopsis) {
-            this.synopsis = synopsis;
+        public List<String> getMovieSchedules() {
+            return movieSchedules;
+        }
+
+        public void setMovieSchedules(List<String> movieSchedules) {
+            this.movieSchedules = movieSchedules;
+        }
+    }
+
+    // Clase para representar el tipo de entrada.
+    public static class Entry {
+        private String name;
+        private double price;
+
+        public Entry(String name, double price) {
+            this.name = name;
+            this.price = price;
+        }
+
+        // Getters
+        public String getName() {
+            return name;
         }
 
         public double getPrice() {
             return price;
         }
 
-        public void setPrice(double price) {
-            this.price = price;
+        public void getView() {
+            System.out.println(name + " - " + price + " s/");
         }
-
     }
 
     // Clase para representar el Combo.
@@ -172,26 +196,26 @@ public class Models {
         private String name;
         private String description;
         private double price;
-        
+
         public Combo(String name, double price, String description) {
             this.name = name;
             this.price = price;
             this.description = description;
         }
-        
+
         // Getters y Setters
         public String getName() {
             return name;
         }
-    
+
         public void setName(String name) {
             this.name = name;
         }
-    
+
         public double getPrice() {
             return price;
         }
-    
+
         public void setPrice(double price) {
             this.price = price;
         }
@@ -204,5 +228,5 @@ public class Models {
             this.description = description;
         }
     }
-    
+
 }

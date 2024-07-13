@@ -4,24 +4,14 @@ import Cine.Models.*;
 
 public class UserInterface {
 
-    public static void Welcome() {
-        System.out.println("**************************************************");
-        System.out.println("                                                  ");
-        System.out.println("     Bienvenido a CinePlanet Santa Clara          ");
-        System.out.println("                                                  ");
-        System.out.println("**************************************************");
-    }
-
-    public static void MovieListings(boolean isLogin) {
-        if (!isLogin) return;
-
+    public static void showMovieListings() {
         System.out.println("************************************************************");
         System.out.println("                      Lista de Películas                    ");
         System.out.println("************************************************************");
         System.out.println();
     }
 
-    public static void DisplayMovieDetails(Movie movie) {
+    public static void displayMovieDetails(Movie movie) {
         String title = movie.getTitle();
         String director = movie.getDirector();
         int duration = movie.getDuration();
@@ -33,33 +23,28 @@ public class UserInterface {
         System.out.println("                   Detalles de la Película                ");
         System.out.println("**********************************************************");
         System.out.println();
-    
+
         System.out.println("Título:    " + title);
         System.out.println("Director:  " + director);
         System.out.println("Duración:  " + duration + " minutos");
         System.out.println("Género:    " + genre);
         System.out.println("Edad mínima recomendada: " + minAge + "+");
-        System.out.println("Precio:   s/" + movie.getPrice());
         System.out.println();
         System.out.println("Sinopsis:");
         System.out.println("----------------------------------------------------------");
         System.out.println(synopsis);
         System.out.println("----------------------------------------------------------");
         System.out.println();
-
-        System.out.println("Opciones:");
-        System.out.println("1. Continuar");
-        System.out.println("2. Volver");
-
     }
 
     // Matriz de asientos
-    public static void InterfaceSeats(int col, String block) {
-        boolean[][] seats = new boolean[9][9];
-        String[] row = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
-    
+    private static boolean[][] seats = new boolean[9][9];
+
+    public static void displaySeatMatrix(int col, String block) {
+        String[] row = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
+
         int currentblock = 0;
-        
+
         switch (block.toUpperCase()) {
             case "A" -> currentblock = 1;
             case "B" -> currentblock = 2;
@@ -74,7 +59,7 @@ public class UserInterface {
                 System.out.println("");
             }
         }
-    
+
         if (col > 0 && currentblock > 0) {
             seats[currentblock - 1][col - 1] = true;
         }
@@ -84,8 +69,8 @@ public class UserInterface {
         for (int i = 1; i < seats.length + 1; i++) {
             System.out.print(" " + i + " ");
         }
-        System.out.println(); 
-        
+        System.out.println();
+
         for (int i = 0; i < seats.length; i++) {
             System.out.print(row[i] + "  ");
             for (int j = 0; j < seats[i].length; j++) {
@@ -97,12 +82,11 @@ public class UserInterface {
             }
             System.out.println();
         }
-    
+
         System.out.println("**************************************************");
     }
-    
- 
-    public static void ViewDetailsCombo(Combo combo) {
+
+    public static void displayComboDetails(Combo combo) {
         System.out.println("**********************************************************");
         System.out.println("                   Detalles del Combo                    ");
         System.out.println("**********************************************************");
@@ -112,6 +96,5 @@ public class UserInterface {
         System.out.println("Precio: s/" + combo.getPrice());
         System.out.println();
     }
-        
 
 }

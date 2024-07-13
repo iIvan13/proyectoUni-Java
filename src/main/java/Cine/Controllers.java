@@ -1,12 +1,29 @@
 package Cine;
 
 import static Cine.UserInterface.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import Cine.Models.*;
 
 public class Controllers {
 
-    @SuppressWarnings("resource")
+    public static Cine Welcome() {
+        Movie[] movies = Data.GetMovies();
+
+        Cine cineSantaClara = new Cine("Cine Santa Clara", movies);
+        String name = cineSantaClara.getName();
+
+        System.out.println("**************************************************");
+        System.out.println("                                                  ");
+        System.out.println("     Bienvenido a Cine: " + name);
+        System.out.println("                                                  ");
+        System.out.println("**************************************************");
+
+        return cineSantaClara;
+    }
+
     public static User NewUser() {
         Scanner scan = new Scanner(System.in);
 
@@ -17,127 +34,181 @@ public class Controllers {
         String dni = scan.nextLine();
 
         if (dni.length() < 8) {
-            System.out.println("DNI menor a 8 digitos o el DNI es incorrecto");
+            System.out.println("DNI menor a 8 dígitos o el DNI es incorrecto");
             return null;
         }
 
-        return new User(name, dni, null, null, null, 0.0);
+        return new User(name, dni, null, null, null, null);
     }
 
-    @SuppressWarnings("resource")
-    public static Movie SelectMovie(boolean isLoggedIn) {
+    public static Movie SelectMovie(Movie[] movies) {
         Scanner scan = new Scanner(System.in);
+        int movieIndex;
 
-        Movie[] movies = Data.GetMovies();
-
-        while (true) {
-            MovieListings(isLoggedIn);
+        do {
+            showMovieListings();
 
             for (int i = 0; i < movies.length; i++) {
                 System.out.println((i + 1) + ". Título: " + movies[i].getTitle());
                 System.out.println("   Género: " + movies[i].getGenre());
                 System.out.println("   Edad mínima: " + movies[i].getMinAge() + "+");
                 System.out.println("   Duración: " + movies[i].getDuration() + " minutos");
-                System.out.println("   Precio: s/" + movies[i].getPrice());
                 System.out.println();
             }
 
-            System.out.println("Seleccione una película para ver más información ingresando el número correspondiente:");
-            System.out.println();
+            System.out
+                    .println("Seleccione una película para ver más información ingresando el número correspondiente:");
+            movieIndex = scan.nextInt();
 
-            System.out.println("**************************************************");
-
-            int movieIndex = scan.nextInt();
             if (movieIndex < 1 || movieIndex > movies.length) {
                 System.out.println("Opción incorrecta. Intente de nuevo.");
-                continue;
+            } else {
+                displayMovieDetails(movies[movieIndex - 1]);
+                System.out.println("¿Desea seleccionar esta película?");
+                System.out.println("1. Sí");
+                System.out.println("2. No");
             }
+        } while (scan.nextInt() != 1);
 
-            DisplayMovieDetails(movies[movieIndex - 1]);
-
-            int option = scan.nextInt();
-            if (option == 1) {
-                return movies[movieIndex - 1];
-            } else if (option == 2) {
-                System.out.println("");
-                System.out.println("Puede elegir otra pelicula");
-                System.out.println();
-            }
-        }
+        return movies[movieIndex - 1];
     }
 
-    @SuppressWarnings("resource")
-    public static String SelectSeat() {
+    public static Movie SelectSchedule(Movie movie) {
         Scanner scan = new Scanner(System.in);
+        List<String> schedules = movie.getMovieSchedules();
+
+        System.out.println("**************************************************");
+        System.out.println("              Seleccione su horario               ");
+        System.out.println("**************************************************");
+
+        for (int i = 0; i < schedules.size(); i++) {
+            System.out.println((i + 1) + ". " + schedules.get(i));
+        }
+
+        System.out.println("Ingrese el horario (1 - " + schedules.size() + "):");
+        int scheduleIndex = scan.nextInt();
+        scan.nextLine();
+
+        String selectedSchedule = schedules.get(scheduleIndex - 1);
+        movie.setMovieSchedules(Collections.singletonList(selectedSchedule));
+        return movie;
+    }
+
+    public static List<String> selectSeats() {
+        Scanner scan = new Scanner(System.in);
+        List<String> selectedSeats = new ArrayList<>();
 
         System.out.println("**************************************************");
         System.out.println("              Seleccione su asiento               ");
         System.out.println("**************************************************");
-        System.out.println("                  Asientos                        ");
-        System.out.println("**************************************************");
-        InterfaceSeats(0, "");
 
-        System.out.println("Ingrese la fila y el número del asiento");
-        System.out.println("Fila (A - I):");
-        String block = scan.nextLine();
-        System.out.println("Numero de asiento (1 - 9):");
-        int col = scan.nextInt();
+        do {
+            displaySeatMatrix(0, "");
 
-        InterfaceSeats(col, block);
+            System.out.println("Ingrese la fila de asiento (A - I):");
+            String block = scan.nextLine().toUpperCase();
 
-        return block.toUpperCase() + "-" + col;
+            System.out.println("Número de asiento (1 - 9):");
+            int col = scan.nextInt();
+            scan.nextLine();
+
+            displaySeatMatrix(col, block);
+
+            String seat = block + "-" + col;
+            selectedSeats.add(seat);
+
+            System.out.println("Asientos seleccionados: " + selectedSeats);
+            System.out.println("¿Desea seleccionar otro asiento? (1: sí / 2: no)");
+        } while (scan.nextLine().equalsIgnoreCase("1"));
+
+        return selectedSeats;
     }
 
-    @SuppressWarnings("resource")
-    public static Combo SelectCombo(int option) {
+    public static Entry[] SelectEntries(int quantity) {
         Scanner scan = new Scanner(System.in);
+        Entry[] entries = Data.GetEntries();
+        Entry[] selectedEntries = new Entry[quantity];
 
-        if (option == 2) return null; 
+        System.out.println("Seleccione el tipo de entrada:");
 
+        for (int i = 0; i < entries.length; i++) {
+            System.out.println((i + 1) + ". " + entries[i].getName() + " - " + entries[i].getPrice() + " s/");
+        }
+
+        for (int i = 0; i < quantity; i++) {
+            int choice;
+            do {
+                System.out.print("Seleccione el tipo de entrada para la entrada " + (i + 1) + ": ");
+                choice = scan.nextInt();
+
+                if (choice < 1 || choice > entries.length) {
+                    System.out.println("Opción no válida. Inténtelo de nuevo.");
+                }
+            } while (choice < 1 || choice > entries.length);
+
+            selectedEntries[i] = entries[choice - 1];
+        }
+
+        return selectedEntries;
+    }
+
+    public static Combo SelectCombo() {
+        Scanner scan = new Scanner(System.in);
         Combo[] combos = Data.GetCombos();
-        Combo returnCombo = null;
+        Combo selectedCombo = null;
 
-        if (option == 1) {
-            System.out.println("************************************************************");
-            System.out.println("                      Combos Disponibles                    ");
-            System.out.println("************************************************************");
+        System.out.println("************************************************************");
+        System.out.println("                      Combos Disponibles                    ");
+        System.out.println("************************************************************");
+
+        for (int i = 0; i < combos.length; i++) {
+            System.out.println((i + 1) + ". " + combos[i].getName().toUpperCase());
+            System.out.println("   " + combos[i].getDescription());
+            System.out.println("   Precio: s/" + combos[i].getPrice());
             System.out.println();
+        }
 
-            for (int i = 0; i < combos.length; i++) {
-                System.out.println((i + 1) + ". " + combos[i].getName().toUpperCase());
-                System.out.println("   " + combos[i].getDescription());
-                System.out.println("   Precio: s/" + combos[i].getPrice());
-                System.out.println();
-            }
-
+        int selectCombo;
+        do {
             System.out.println("Seleccione un combo ingresando el número correspondiente:");
-            System.out.println();
+            selectCombo = scan.nextInt();
 
-            int selectCombo = scan.nextInt();
-            ViewDetailsCombo(combos[selectCombo - 1]);
-            
-            System.out.println("Opciones:");
-            System.out.println("1. Continuar con la compra de la boleto");
-            System.out.println("2. Volver");
+            if (selectCombo < 1 || selectCombo > combos.length) {
+                System.out.println("Opción incorrecta. Intente de nuevo.");
+            }
+        } while (selectCombo < 1 || selectCombo > combos.length);
+
+        displayComboDetails(combos[selectCombo - 1]);
+
+        System.out.println("Opciones:");
+        System.out.println("1. Continuar con la compra del boleto");
+        System.out.println("2. Volver");
+
+        int option;
+        do {
             option = scan.nextInt();
 
             switch (option) {
-                case 1 -> returnCombo = combos[selectCombo - 1];
-                case 2 -> {
-                    return SelectCombo(1);
-                }
-                default -> {
+                case 1:
+                    selectedCombo = combos[selectCombo - 1];
+                    break;
+                case 2:
+                    break; // No hace falta hacer nada aquí, simplemente continuar
+                default:
                     System.out.println("Opción incorrecta. Intente de nuevo.");
-                    ViewDetailsCombo(combos[selectCombo - 1]);
-                }
+                    displayComboDetails(combos[selectCombo - 1]);
+                    break;
             }
-        }
-        return returnCombo;
+        } while (option != 1 && option != 2);
+
+        return selectedCombo;
     }
 
     public static void GetTicked(User user) {
-        if (user == null) return;
-        
+        if (user == null) {
+            return;
+        }
+
         System.out.println("**************************************************");
         System.out.println("                     Boleta                       ");
         System.out.println("**************************************************");
@@ -145,15 +216,20 @@ public class Controllers {
         System.out.println("Nombre: " + user.getName());
         System.out.println("DNI: " + user.getDni());
         System.out.println("Pelicula: " + user.getSelectedMovie().getTitle());
-        System.out.println("Asiento: " + user.getSelectedSeat());
+        System.out.println("Asientos seleccionados: " + user.getSelectedSeat());
+        System.out.println("Entradas: ");
+
+        for (int i = 0; i < user.getEntries().length; i++) {
+            System.out.print("- ");
+            user.getEntries()[i].getView();
+        }
 
         if (user.getSelectedCombo() != null) {
             System.out.println("Combo: " + user.getSelectedCombo().getName());
         }
-        
+
         System.out.println("**************************************************");
         System.out.println("Total: s/" + user.getTotal());
-
         System.out.println("**************************************************");
         System.out.println("               Gracias por su compra               ");
         System.out.println("**************************************************");
