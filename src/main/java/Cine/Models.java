@@ -102,7 +102,7 @@ public class Models {
             for (Entry entry : entries) {
                 this.total += entry.getPrice();
             }
-            double priceCombo = this.selectedCombo.getPrice();
+            double priceCombo = this.selectedCombo != null ? this.selectedCombo.getPrice() : 0;
             this.total = this.total + priceCombo;
             return total;
         }
@@ -120,10 +120,12 @@ public class Models {
         private final int minAge;
         private final String synopsis;
         private List<String> movieSchedules;
+        private final String img;
+        private final String typeThread;
 
         // Constructor de la clase Movie
         public Movie(String title, String director, int duration, String genre, int minAge, String synopsis,
-                List<String> movieSchedules) {
+                List<String> movieSchedules, String img, String typeThread) {
             this.title = title;
             this.director = director;
             this.duration = duration;
@@ -131,6 +133,8 @@ public class Models {
             this.minAge = minAge;
             this.synopsis = synopsis;
             this.movieSchedules = movieSchedules;
+            this.img = img;
+            this.typeThread = typeThread;
         }
 
         // Métodos getters y setters para acceder y modificar los atributos
@@ -160,6 +164,14 @@ public class Models {
 
         public List<String> getMovieSchedules() {
             return movieSchedules;
+        }
+        
+        public String getImg() {
+            return img;
+        }
+
+        public String getTypeThread() {
+            return typeThread;
         }
 
         public void setMovieSchedules(List<String> movieSchedules) {

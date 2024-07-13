@@ -213,28 +213,30 @@ public class Controllers {
         String userName = user.getName();
         String userDni = user.getDni();
         String timeEntry = user.getSelectedMovie().getMovieSchedules().get(0);
-        double entryTotal = 0;
+        double entryPrices = 0;
         for (Entry entry : user.getEntries()) {
-            entryTotal += entry.getPrice();
+            entryPrices += entry.getPrice();
         }
+        String entryTotal = entryPrices + " s/";
         String selectedCombo = user.getSelectedCombo() == null ? "No" : user.getSelectedCombo().getName();
         String comboPrice = user.getSelectedCombo() == null ? "0.0" : user.getSelectedCombo().getPrice() + " s/";
         String movieTitle = user.getSelectedMovie().getTitle();
         String movieGenre = user.getSelectedMovie().getGenre();
         String synopsis = user.getSelectedMovie().getSynopsis();
-        double allPayable = user.getTotal();
+        double total = user.getTotal();
+        String allPayable = total + " s/";
 
         List<String> selectedSeats = user.getSelectedSeat();
         List<String> selectedEntries = new ArrayList<>();
         for (Entry entry : user.getEntries()) {
-            selectedEntries.add(entry.getName());
+            selectedEntries.add(entry.getName() + " - " + entry.getPrice() + " s/");
         }
 
         String htmlSeat = generateHtmlList(selectedSeats);
         String htmlEntry = generateHtmlList(selectedEntries);
 
-        String sala = "IMAX";
-        String imageUrl = "https://cdn.vox-cdn.com/thumbor/TAzotU1RnNkUJ7RwFtu7Rn1Ntcw=/0x0:1688x2500/1200x0/filters:focal(0x0:1688x2500):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/11614195/InfinityWar5aabd55fed5fa.jpg";
+        String sala = user.getSelectedMovie().getTypeThread();
+        String imageUrl = user.getSelectedMovie().getImg();
 
         String html = String.format(
                 """
@@ -336,7 +338,11 @@ public class Controllers {
                 userName, userDni, timeEntry, htmlSeat, htmlEntry, entryTotal, selectedCombo, comboPrice, imageUrl,
                 movieTitle, movieGenre, sala, synopsis, allPayable);
 
-        String rutaDelArchivo = "C:\\Users\\ivant\\OneDrive\\Escritorio\\Java - UTP\\ProyectoFinal\\informe.html"; // Reemplazar con la ruta deseada
+        String rutaDelArchivo = "C:\\Users\\ivant\\OneDrive\\Escritorio\\Java - UTP\\ProyectoFinal\\informe.html"; // Reemplazar
+                                                                                                                   // con
+                                                                                                                   // la
+                                                                                                                   // ruta
+                                                                                                                   // deseada
 
         try (PrintWriter out = new PrintWriter(rutaDelArchivo)) {
             out.println(html);

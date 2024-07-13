@@ -6,22 +6,35 @@ import java.util.Arrays;
 public class Data {
     public static Movie[] GetMovies() {
         Movie[] movies = {
-                new Movie("El Señor de los Anillos: La Comunidad del Anillo", "Peter Jackson", 120,
-                        "Acción", 15,
-                        "En un mundo fantástico lleno de magia y criaturas extraordinarias, un humilde hobbit llamado Frodo Baggins se embarca en una épica aventura para destruir un poderoso Anillo Único que amenaza con sumir a la Tierra Media en la oscuridad eterna.",
-                        Arrays.asList("3:00", "7:00")),
-                new Movie("La Isla de los Secretos", "Sofía Martínez", 120, "Acción", 15,
-                        "En un futuro distópico donde los secretos y las conspiraciones gobiernan el mundo, una joven valiente descubre la verdad detrás de una isla misteriosa que promete revelar los secretos más oscuros de la humanidad.",
-                        Arrays.asList("3:00", "7:00")),
-                new Movie("Titanic", "James Cameron", 195, "Romance", 12,
-                        "Basada en hechos reales, esta película cuenta la trágica historia de amor entre Jack y Rose, dos jóvenes de diferentes clases sociales que se conocen a bordo del Titanic, el barco de pasajeros más grande y lujoso de su tiempo, que eventualmente se hunde en el Atlántico Norte.",
-                        Arrays.asList("3:00", "7:00")),
-                new Movie("Interestelar", "Christopher Nolan", 169, "Sci-Fi", 10,
-                        "En un futuro donde la Tierra está al borde del colapso ambiental, un grupo de astronautas se embarca en un viaje interestelar a través de un agujero de gusano recientemente descubierto. Su misión es encontrar un nuevo hogar para la humanidad más allá de nuestro sistema solar, enfrentando peligros cósmicos y desafíos impredecibles.",
-                        Arrays.asList("3:00", "7:00")),
-                new Movie("El Padrón", "Sofía Martínez", 120, "Acción", 15,
-                        "En un mundo fantástico lleno de magia y criaturas extraordinarias, un humilde hobbit llamado Frodo Baggins se embarca en una épica aventura para destruir un poderoso Anillo Único que amenaza con sumir a la Tierra Media en la oscuridad eterna.",
-                        Arrays.asList("3:00", "7:00"))
+                new Movie("Deadpool Wolverine", "Shawn Levy", 120, "Acción", 15,
+                        "Deadpool y Wolverine unen fuerzas en una misión llena de acción y humor. Juntos enfrentan nuevos enemigos y viejos conocidos en una aventura épica.",
+                        Arrays.asList("11:00am", "1:00pm", "3:00pm", "5:00pm", "7:00pm",
+                                "9:00pm"),
+                        "https://i0.wp.com/www.tomosygrapas.com/wp-content/uploads/2024/04/Deadpool-3-poster-1.jpg?ssl=1",
+                        "IMAX"),
+                new Movie("Un Lugar en Silencio: Día 1", "John Krasinski", 100, "Terror", 12,
+                        "El inicio de la invasión alienígena que sumerge al mundo en un silencio mortal. La humanidad lucha por sobrevivir sin hacer ruido.",
+                        Arrays.asList("10:00am", "12:00pm", "2:00pm", "4:00pm", "6:00pm",
+                                "8:00pm"),
+                        "https://palomaynacho-1f321.kxcdn.com/wp-content/uploads/2024/05/Un-lugar-en-silencio-poster-1-scaled.jpg",
+                        "REGULAR 2D"),
+                new Movie("Furiosa", "George Miller", 130, "Acción", 15,
+                        "Una precuela que cuenta la historia de Imperator Furiosa antes de los eventos de Mad Max: Fury Road. Un viaje lleno de acción en un mundo postapocalíptico.",
+                        Arrays.asList("11:00am", "1:30pm", "4:00pm", "6:30pm", "9:00pm"),
+                        "https://lh6.googleusercontent.com/proxy/FzzvnO-5Tml7D6wxLfjg1TMeBd3gRmkxJnbUO3TV5q7qfUD186K7jy7Sk9Qzfq7Ft1SbfLrZ452ey987bjVCftqT06-fI74InA",
+                        "IMAX"),
+                new Movie("Top Gun", "Tony Scott", 110, "Acción", 12,
+                        "Un joven piloto de la Marina de los EE.UU., Maverick, ingresa a una escuela de élite de aviación, donde enfrenta desafíos tanto personales como profesionales.",
+                        Arrays.asList("10:00am", "12:00pm", "2:00pm", "4:00pm", "6:00pm",
+                                "8:00pm"),
+                        "https://i.ebayimg.com/images/g/fsIAAOSwAuZmcV~u/s-l1600.jpg", "REGULAR 3D"),
+                new Movie("La Monja", "Corin Hardy", 96, "Terror", 15,
+                        "Un sacerdote con un pasado atormentado y una novicia a punto de tomar sus votos se enfrentan a una fuerza maligna en forma de una monja demoníaca.",
+                        Arrays.asList("11:00am", "1:00pm", "3:00pm", "5:00pm", "7:00pm",
+                                "9:00pm"),
+                        "https://hips.hearstapps.com/es.h-cdn.co/fotoes/images/media/imagenes/recursos/la-monja-poster-pelicula/138144618-1-esl-ES/la-monja-poster-pelicula.jpg",
+                        "IMAX")
+
         };
 
         return movies;
