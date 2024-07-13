@@ -169,8 +169,8 @@ public class Models {
 
     // Clase para representar el tipo de entrada.
     public static class Entry {
-        private String name;
-        private double price;
+        private final String name;
+        private final double price;
 
         public Entry(String name, double price) {
             this.name = name;

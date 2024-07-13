@@ -189,17 +189,16 @@ public class Controllers {
             option = scan.nextInt();
 
             switch (option) {
-                case 1:
-                    selectedCombo = combos[selectCombo - 1];
-                    break;
-                case 2:
-                    break; // No hace falta hacer nada aquí, simplemente continuar
-                default:
+                case 1 -> selectedCombo = combos[selectCombo - 1];
+                case 2 -> {
+                }
+                default -> {
                     System.out.println("Opción incorrecta. Intente de nuevo.");
                     displayComboDetails(combos[selectCombo - 1]);
-                    break;
+                }
             }
-        } while (option != 1 && option != 2);
+            // No hace falta hacer nada aquí, simplemente continuar
+                    } while (option != 1 && option != 2);
 
         return selectedCombo;
     }
@@ -219,9 +218,9 @@ public class Controllers {
         System.out.println("Asientos seleccionados: " + user.getSelectedSeat());
         System.out.println("Entradas: ");
 
-        for (int i = 0; i < user.getEntries().length; i++) {
+        for (Entry entrie : user.getEntries()) {
             System.out.print("- ");
-            user.getEntries()[i].getView();
+            entrie.getView();
         }
 
         if (user.getSelectedCombo() != null) {

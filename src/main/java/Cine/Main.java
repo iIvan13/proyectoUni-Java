@@ -29,7 +29,7 @@ public class Main {
 
             // Selección de la hora
             Movie currentMovie = SelectSchedule(movie);
-            user.setSelectedMovie(movie);
+            user.setSelectedMovie(currentMovie);
 
             // Seleccion de asiento
             List<String> seats = selectSeats();
