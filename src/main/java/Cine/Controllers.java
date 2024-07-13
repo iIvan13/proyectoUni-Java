@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 import Cine.Models.*;
+import java.io.PrintWriter;
+import java.io.FileNotFoundException;
 
 public class Controllers {
 
@@ -198,7 +200,7 @@ public class Controllers {
                 }
             }
             // No hace falta hacer nada aquí, simplemente continuar
-                    } while (option != 1 && option != 2);
+        } while (option != 1 && option != 2);
 
         return selectedCombo;
     }
@@ -208,29 +210,148 @@ public class Controllers {
             return;
         }
 
-        System.out.println("**************************************************");
-        System.out.println("                     Boleta                       ");
-        System.out.println("**************************************************");
-        System.out.println();
-        System.out.println("Nombre: " + user.getName());
-        System.out.println("DNI: " + user.getDni());
-        System.out.println("Pelicula: " + user.getSelectedMovie().getTitle());
-        System.out.println("Asientos seleccionados: " + user.getSelectedSeat());
-        System.out.println("Entradas: ");
+        String userName = user.getName();
+        String userDni = user.getDni();
+        String timeEntry = user.getSelectedMovie().getMovieSchedules().get(0);
+        double entryTotal = 0;
+        for (Entry entry : user.getEntries()) {
+            entryTotal += entry.getPrice();
+        }
+        String selectedCombo = user.getSelectedCombo() == null ? "No" : user.getSelectedCombo().getName();
+        String comboPrice = user.getSelectedCombo() == null ? "0.0" : user.getSelectedCombo().getPrice() + " s/";
+        String movieTitle = user.getSelectedMovie().getTitle();
+        String movieGenre = user.getSelectedMovie().getGenre();
+        String synopsis = user.getSelectedMovie().getSynopsis();
+        double allPayable = user.getTotal();
 
-        for (Entry entrie : user.getEntries()) {
-            System.out.print("- ");
-            entrie.getView();
+        List<String> selectedSeats = user.getSelectedSeat();
+        List<String> selectedEntries = new ArrayList<>();
+        for (Entry entry : user.getEntries()) {
+            selectedEntries.add(entry.getName());
         }
 
-        if (user.getSelectedCombo() != null) {
-            System.out.println("Combo: " + user.getSelectedCombo().getName());
+        String htmlSeat = generateHtmlList(selectedSeats);
+        String htmlEntry = generateHtmlList(selectedEntries);
+
+        String sala = "IMAX";
+        String imageUrl = "https://cdn.vox-cdn.com/thumbor/TAzotU1RnNkUJ7RwFtu7Rn1Ntcw=/0x0:1688x2500/1200x0/filters:focal(0x0:1688x2500):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/11614195/InfinityWar5aabd55fed5fa.jpg";
+
+        String html = String.format(
+                """
+                        <!DOCTYPE html>
+                        <html lang="en">
+
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>Cine Santa Clara</title>
+                            <link rel="preconnect" href="https://fonts.googleapis.com">
+                            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+                            <script src="https://cdn.tailwindcss.com"></script>
+                        </head>
+
+                        <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+                            <h1 class="font-bold text-4xl mb-6 text-gray-800">Cine Santa Clara</h1>
+                            <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+                                <div class="flex flex-col sm:flex-row justify-between gap-8">
+                                    <div class="flex flex-col gap-6 w-full sm:w-1/2">
+                                        <div class="flex flex-col gap-4">
+                                            <div>
+                                                <span class="font-semibold">Nombre:</span>
+                                                <span>%s</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-semibold">DNI:</span>
+                                                <span>%s</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-semibold">Hora de Entrada:</span>
+                                                <span>%s</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col sm:flex-row gap-4">
+                                            <div class="border rounded-lg p-4 w-full sm:w-auto">
+                                                <span class="font-semibold">Asientos:</span>
+                                                <ul class="mt-2">
+                                                    %s
+                                                </ul>
+                                            </div>
+                                            <div class="border rounded-lg p-4 w-full sm:w-auto">
+                                                <span class="font-semibold">Entradas:</span>
+                                                <ul class="mt-2">
+                                                    %s
+                                                </ul>
+                                                <div class="mt-4 text-right">
+                                                    <span class="font-semibold">Total:</span>
+                                                    <span>%s</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <span class="font-semibold">Combo:</span>
+                                            <span>%s</span>
+                                            <div class="mt-2">
+                                                <span class="font-semibold">Precio:</span>
+                                                <span>%s</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center w-full sm:w-1/2">
+                                        <img class="w-full h-64 rounded-lg shadow-md object-cover"
+                                            src="%s"
+                                            alt="Avengers: Endgame">
+                                        <div class="mt-4 text-center">
+                                            <div class="mb-2">
+                                                <span class="font-semibold">Película:</span>
+                                                <span>%s</span>
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="font-semibold">Género:</span>
+                                                <span>%s</span>
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="font-semibold">Tipo de Sala:</span>
+                                                <span>%s</span>
+                                            </div>
+                                            <div>
+                                                <span class="font-semibold">Sinopsis:</span>
+                                                <p class="mt-1 text-sm text-gray-600">%s</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-6 font-semibold text-lg flex justify-between">
+                                    <h4 class="text-[#06D6A0]">Gracias por su compra</h4>
+                                    <div>
+                                        <span>Total a pagar: </span>
+                                        <span>%s</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </body>
+
+                        </html>
+                        """,
+                userName, userDni, timeEntry, htmlSeat, htmlEntry, entryTotal, selectedCombo, comboPrice, imageUrl,
+                movieTitle, movieGenre, sala, synopsis, allPayable);
+
+        String rutaDelArchivo = "C:\\Users\\ivant\\OneDrive\\Escritorio\\Java - UTP\\ProyectoFinal\\informe.html"; // Reemplazar con la ruta deseada
+
+        try (PrintWriter out = new PrintWriter(rutaDelArchivo)) {
+            out.println(html);
+            System.out.println("Informe HTML generado y guardado en: " + rutaDelArchivo);
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: No se pudo crear el archivo " + rutaDelArchivo);
         }
 
-        System.out.println("**************************************************");
-        System.out.println("Total: s/" + user.getTotal());
-        System.out.println("**************************************************");
-        System.out.println("               Gracias por su compra               ");
-        System.out.println("**************************************************");
+    }
+
+    private static String generateHtmlList(List<String> items) {
+        StringBuilder htmlList = new StringBuilder();
+        for (String item : items) {
+            htmlList.append(String.format("<li class=\"border-b py-1\">%s</li>\n", item));
+        }
+        return htmlList.toString();
     }
 }
