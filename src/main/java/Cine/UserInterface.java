@@ -38,7 +38,7 @@ public class UserInterface {
     }
 
     // Matriz de asientos
-    private static boolean[][] seats = new boolean[9][9];
+    private static final boolean[][] seats = new boolean[9][9];
 
     public static void displaySeatMatrix(int col, String block) {
         String[] row = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };

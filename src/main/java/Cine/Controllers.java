@@ -29,15 +29,36 @@ public class Controllers {
     public static User NewUser() {
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("Ingrese su nombre:");
-        String name = scan.nextLine();
+        String name = null;
+        String dni = null;
 
-        System.out.println("Ingrese su DNI:");
-        String dni = scan.nextLine();
+        while (true) {
+            System.out.println("Ingrese su nombre:");
+            name = scan.nextLine().trim();
 
-        if (dni.length() < 8) {
-            System.out.println("DNI menor a 8 dígitos o el DNI es incorrecto");
-            return null;
+            if (name.isEmpty()) {
+                System.out.println("El nombre no puede estar vacío. Intente nuevamente.");
+            } else if (!name.matches("[a-zA-Z\\s]+")) {
+                System.out.println("El nombre solo puede contener letras y espacios. Intente nuevamente.");
+            } else {
+                break;
+            }
+        }
+
+        while (true) {
+            System.out.println("Ingrese su DNI:");
+            dni = scan.nextLine().trim();
+
+            if (dni.length() < 8 || dni.length() > 9) {
+                System.out.println("El DNI debe tener 8 o 9 dígitos. Intente nuevamente.");
+            } else {
+                try {
+                    Long.parseLong(dni);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("El DNI contiene caracteres no numéricos. Intente nuevamente.");
+                }
+            }
         }
 
         return new User(name, dni, null, null, null, null);
@@ -45,9 +66,9 @@ public class Controllers {
 
     public static Movie SelectMovie(Movie[] movies) {
         Scanner scan = new Scanner(System.in);
-        int movieIndex;
+        int movieIndex = -1;
 
-        do {
+        while (true) {
             showMovieListings();
 
             for (int i = 0; i < movies.length; i++) {
@@ -60,19 +81,38 @@ public class Controllers {
 
             System.out
                     .println("Seleccione una película para ver más información ingresando el número correspondiente:");
-            movieIndex = scan.nextInt();
 
-            if (movieIndex < 1 || movieIndex > movies.length) {
-                System.out.println("Opción incorrecta. Intente de nuevo.");
-            } else {
-                displayMovieDetails(movies[movieIndex - 1]);
-                System.out.println("¿Desea seleccionar esta película?");
-                System.out.println("1. Sí");
-                System.out.println("2. No");
+            try {
+                movieIndex = Integer.parseInt(scan.nextLine());
+
+                if (movieIndex < 1 || movieIndex > movies.length) {
+                    System.out.println("Opción incorrecta. Intente de nuevo.");
+                } else {
+                    displayMovieDetails(movies[movieIndex - 1]);
+                    System.out.println("¿Desea seleccionar esta película?");
+                    System.out.println("1. Sí");
+                    System.out.println("2. No");
+                    while (true) {
+                        try {
+                            int confirm = Integer.parseInt(scan.nextLine());
+
+                            if (confirm == 1) {
+                                return movies[movieIndex - 1];
+                            } else if (confirm == 2) {
+                                break;
+                            } else {
+                                System.out.println("Opción incorrecta. Intente de nuevo.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Entrada no válida. Por favor, ingrese un número.");
+                        }
+                    }
+
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada no válida. Por favor, ingrese un número.");
             }
-        } while (scan.nextInt() != 1);
-
-        return movies[movieIndex - 1];
+        }
     }
 
     public static Movie SelectSchedule(Movie movie) {
@@ -87,9 +127,21 @@ public class Controllers {
             System.out.println((i + 1) + ". " + schedules.get(i));
         }
 
-        System.out.println("Ingrese el horario (1 - " + schedules.size() + "):");
-        int scheduleIndex = scan.nextInt();
-        scan.nextLine();
+        int scheduleIndex = -1;
+        while (true) {
+            System.out.println("Ingrese el horario (1 - " + schedules.size() + "):");
+            try {
+                scheduleIndex = Integer.parseInt(scan.nextLine());
+
+                if (scheduleIndex < 1 || scheduleIndex > schedules.size()) {
+                    System.out.println("Opción incorrecta. Intente de nuevo.");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada no válida. Por favor, ingrese un número.");
+            }
+        }
 
         String selectedSchedule = schedules.get(scheduleIndex - 1);
         movie.setMovieSchedules(Collections.singletonList(selectedSchedule));
@@ -104,15 +156,36 @@ public class Controllers {
         System.out.println("              Seleccione su asiento               ");
         System.out.println("**************************************************");
 
-        do {
+        while (true) {
             displaySeatMatrix(0, "");
 
-            System.out.println("Ingrese la fila de asiento (A - I):");
-            String block = scan.nextLine().toUpperCase();
+            String block = null;
+            while (true) {
+                System.out.println("Ingrese la fila de asiento (A - I):");
+                block = scan.nextLine().toUpperCase();
 
-            System.out.println("Número de asiento (1 - 9):");
-            int col = scan.nextInt();
-            scan.nextLine();
+                if (block.matches("[A-I]")) {
+                    break;
+                } else {
+                    System.out.println("Fila incorrecta. Intente de nuevo.");
+                }
+            }
+
+            int col = -1;
+            while (true) {
+                System.out.println("Número de asiento (1 - 9):");
+                try {
+                    col = Integer.parseInt(scan.nextLine());
+
+                    if (col >= 1 && col <= 9) {
+                        break;
+                    } else {
+                        System.out.println("Número de asiento incorrecto. Intente de nuevo.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada no válida. Por favor, ingrese un número.");
+                }
+            }
 
             displaySeatMatrix(col, block);
 
@@ -120,10 +193,25 @@ public class Controllers {
             selectedSeats.add(seat);
 
             System.out.println("Asientos seleccionados: " + selectedSeats);
-            System.out.println("¿Desea seleccionar otro asiento? (1: sí / 2: no)");
-        } while (scan.nextLine().equalsIgnoreCase("1"));
+
+            String continueSelection;
+            while (true) {
+                System.out.println("¿Desea seleccionar otro asiento? (1: sí / 2: no)");
+                continueSelection = scan.nextLine();
+                if (continueSelection.equals("1") || continueSelection.equals("2")) {
+                    break;
+                } else {
+                    System.out.println("Opción incorrecta. Intente de nuevo.");
+                }
+            }
+
+            if (continueSelection.equals("2")) {
+                break;
+            }
+        }
 
         return selectedSeats;
+
     }
 
     public static Entry[] SelectEntries(int quantity) {
@@ -139,14 +227,21 @@ public class Controllers {
 
         for (int i = 0; i < quantity; i++) {
             int choice;
-            do {
+            while (true) {
                 System.out.print("Seleccione el tipo de entrada para la entrada " + (i + 1) + ": ");
-                choice = scan.nextInt();
-
-                if (choice < 1 || choice > entries.length) {
-                    System.out.println("Opción no válida. Inténtelo de nuevo.");
+                if (scan.hasNextInt()) {
+                    choice = scan.nextInt();
+                    scan.nextLine();
+                    if (choice >= 1 && choice <= entries.length) {
+                        break; // Opción válida
+                    } else {
+                        System.out.println("Opción no válida. Inténtelo de nuevo.");
+                    }
+                } else {
+                    System.out.println("Entrada no válida. Por favor, ingrese un número.");
+                    scan.nextLine();
                 }
-            } while (choice < 1 || choice > entries.length);
+            }
 
             selectedEntries[i] = entries[choice - 1];
         }
@@ -171,14 +266,21 @@ public class Controllers {
         }
 
         int selectCombo;
-        do {
+        while (true) {
             System.out.println("Seleccione un combo ingresando el número correspondiente:");
-            selectCombo = scan.nextInt();
-
-            if (selectCombo < 1 || selectCombo > combos.length) {
-                System.out.println("Opción incorrecta. Intente de nuevo.");
+            if (scan.hasNextInt()) {
+                selectCombo = scan.nextInt();
+                scan.nextLine();
+                if (selectCombo >= 1 && selectCombo <= combos.length) {
+                    break;
+                } else {
+                    System.out.println("Opción incorrecta. Intente de nuevo.");
+                }
+            } else {
+                System.out.println("Entrada no válida. Por favor, ingrese un número.");
+                scan.nextLine();
             }
-        } while (selectCombo < 1 || selectCombo > combos.length);
+        }
 
         displayComboDetails(combos[selectCombo - 1]);
 
@@ -187,20 +289,27 @@ public class Controllers {
         System.out.println("2. Volver");
 
         int option;
-        do {
-            option = scan.nextInt();
-
-            switch (option) {
-                case 1 -> selectedCombo = combos[selectCombo - 1];
-                case 2 -> {
-                }
-                default -> {
+        while (true) {
+            if (scan.hasNextInt()) {
+                option = scan.nextInt();
+                scan.nextLine();
+                if (option == 1) {
+                    selectedCombo = combos[selectCombo - 1];
+                    break;
+                } else if (option == 2) {
+                    break;
+                } else {
                     System.out.println("Opción incorrecta. Intente de nuevo.");
                     displayComboDetails(combos[selectCombo - 1]);
+                    System.out.println("Opciones:");
+                    System.out.println("1. Continuar con la compra del boleto");
+                    System.out.println("2. Volver");
                 }
+            } else {
+                System.out.println("Entrada no válida. Por favor, ingrese un número.");
+                scan.nextLine();
             }
-            // No hace falta hacer nada aquí, simplemente continuar
-        } while (option != 1 && option != 2);
+        }
 
         return selectedCombo;
     }
@@ -218,8 +327,9 @@ public class Controllers {
             entryPrices += entry.getPrice();
         }
         String entryTotal = entryPrices + " s/";
-        String selectedCombo = user.getSelectedCombo() == null ? "No" : user.getSelectedCombo().getName();
-        String comboPrice = user.getSelectedCombo() == null ? "0.0" : user.getSelectedCombo().getPrice() + " s/";
+        String selectedCombo = user.getSelectedCombo() == null ? "No se ha seleccionado un combo"
+                : user.getSelectedCombo().getName();
+        String comboPrice = user.getSelectedCombo() == null ? "0.0 s/" : user.getSelectedCombo().getPrice() + " s/";
         String movieTitle = user.getSelectedMovie().getTitle();
         String movieGenre = user.getSelectedMovie().getGenre();
         String synopsis = user.getSelectedMovie().getSynopsis();
@@ -338,11 +448,7 @@ public class Controllers {
                 userName, userDni, timeEntry, htmlSeat, htmlEntry, entryTotal, selectedCombo, comboPrice, imageUrl,
                 movieTitle, movieGenre, sala, synopsis, allPayable);
 
-        String rutaDelArchivo = "C:\\Users\\ivant\\OneDrive\\Escritorio\\Java - UTP\\ProyectoFinal\\informe.html"; // Reemplazar
-                                                                                                                   // con
-                                                                                                                   // la
-                                                                                                                   // ruta
-                                                                                                                   // deseada
+        String rutaDelArchivo = "C:\\Users\\ivant\\OneDrive\\Escritorio\\Java - UTP\\ProyectoFinal\\informe.html";
 
         try (PrintWriter out = new PrintWriter(rutaDelArchivo)) {
             out.println(html);
