@@ -77,7 +77,7 @@ public class Main {
                     }
                 } else {
                     System.out.println("Entrada inválida. Por favor, ingrese un número.");
-                    scan.next();
+                    scan.next(); // Consumir el valor inválido
                 }
             }
 
@@ -91,8 +91,8 @@ public class Main {
 
             // Mostrar la boleta de compra
             GetTicked(user);
-        } catch (Exception e) {
-            System.err.println("Ha ocurrido un error: " + e.getMessage());
+        } catch (Exception error) {
+            System.err.println("Ha ocurrido un error: " + error.getMessage());
         }
     }
 

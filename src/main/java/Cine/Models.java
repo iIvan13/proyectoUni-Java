@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Models {
 
+    // CLASE PARA REPRESENTAR EL CINE (1. CINE)
     public static class Cine {
         // Atributos de la clase Cine
         private final String name;
@@ -27,7 +28,7 @@ public class Models {
 
     }
 
-    // Clase para representar un Usuario del sistema.
+    // CLASE PARA REPRESENTAR UN USUARIO (2. USUARIO)
     public static class User {
 
         // Atributos de la clase Usuario
@@ -109,7 +110,7 @@ public class Models {
 
     }
 
-    // Clase para representar una Película.
+    // CLASE PARA REPRESENTAR UNA PELÍCULA (3. PELÍCULA)
     public static class Movie {
 
         // Atributos de la clase Movie
@@ -137,7 +138,7 @@ public class Models {
             this.typeThread = typeThread;
         }
 
-        // Métodos getters y setters para acceder y modificar los atributos
+        // Métodos getters para acceder a los atributos
         public String getTitle() {
             return title;
         }
@@ -179,7 +180,7 @@ public class Models {
         }
     }
 
-    // Clase para representar el tipo de entrada.
+    // CLASE PARA REPRESENTAR UNA ENTRADA (4. ENTRADA)
     public static class Entry {
         private final String name;
         private final double price;
@@ -203,11 +204,11 @@ public class Models {
         }
     }
 
-    // Clase para representar el Combo.
+    // CLASE PARA REPRESENTAR UN COMBO (5. COMBO)
     public static class Combo {
-        private String name;
-        private String description;
-        private double price;
+        private final String name;
+        private final String description;
+        private final double price;
 
         public Combo(String name, double price, String description) {
             this.name = name;
@@ -215,29 +216,17 @@ public class Models {
             this.description = description;
         }
 
-        // Getters y Setters
+        // Getters
         public String getName() {
             return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
         }
 
         public double getPrice() {
             return price;
         }
 
-        public void setPrice(double price) {
-            this.price = price;
-        }
-
         public String getDescription() {
             return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
         }
     }
 

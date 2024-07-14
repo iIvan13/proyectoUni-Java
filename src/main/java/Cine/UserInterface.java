@@ -3,14 +3,7 @@ package Cine;
 import Cine.Models.*;
 
 public class UserInterface {
-
-    public static void showMovieListings() {
-        System.out.println("************************************************************");
-        System.out.println("                      Lista de Películas                    ");
-        System.out.println("************************************************************");
-        System.out.println();
-    }
-
+    
     public static void displayMovieDetails(Movie movie) {
         String title = movie.getTitle();
         String director = movie.getDirector();

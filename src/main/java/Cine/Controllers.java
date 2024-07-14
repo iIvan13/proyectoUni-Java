@@ -32,6 +32,7 @@ public class Controllers {
         String name = null;
         String dni = null;
 
+        // bluce para validar el nombre (while)
         while (true) {
             System.out.println("Ingrese su nombre:");
             name = scan.nextLine().trim();
@@ -39,12 +40,14 @@ public class Controllers {
             if (name.isEmpty()) {
                 System.out.println("El nombre no puede estar vacío. Intente nuevamente.");
             } else if (!name.matches("[a-zA-Z\\s]+")) {
+                // verifica que el nombre solo contenga letras y espacios de la A a la Z
                 System.out.println("El nombre solo puede contener letras y espacios. Intente nuevamente.");
             } else {
                 break;
             }
         }
 
+        // bluce para validar el dni (while)
         while (true) {
             System.out.println("Ingrese su DNI:");
             dni = scan.nextLine().trim();
@@ -53,7 +56,7 @@ public class Controllers {
                 System.out.println("El DNI debe tener 8 o 9 dígitos. Intente nuevamente.");
             } else {
                 try {
-                    Long.parseLong(dni);
+                    Long.valueOf(dni);
                     break;
                 } catch (NumberFormatException e) {
                     System.out.println("El DNI contiene caracteres no numéricos. Intente nuevamente.");
@@ -69,7 +72,10 @@ public class Controllers {
         int movieIndex = -1;
 
         while (true) {
-            showMovieListings();
+            System.out.println("************************************************************");
+            System.out.println("                      Lista de Películas                    ");
+            System.out.println("************************************************************");
+            System.out.println();
 
             for (int i = 0; i < movies.length; i++) {
                 System.out.println((i + 1) + ". Título: " + movies[i].getTitle());
@@ -83,7 +89,8 @@ public class Controllers {
                     .println("Seleccione una película para ver más información ingresando el número correspondiente:");
 
             try {
-                movieIndex = Integer.parseInt(scan.nextLine());
+                String inputNumber = scan.nextLine();
+                movieIndex = Integer.parseInt(inputNumber);
 
                 if (movieIndex < 1 || movieIndex > movies.length) {
                     System.out.println("Opción incorrecta. Intente de nuevo.");
@@ -95,13 +102,14 @@ public class Controllers {
                     while (true) {
                         try {
                             int confirm = Integer.parseInt(scan.nextLine());
-
-                            if (confirm == 1) {
-                                return movies[movieIndex - 1];
-                            } else if (confirm == 2) {
-                                break;
-                            } else {
-                                System.out.println("Opción incorrecta. Intente de nuevo.");
+                            switch (confirm) {
+                                case 1 -> {
+                                    return movies[movieIndex - 1];
+                                }
+                                case 2 -> {
+                                    break;
+                                }
+                                default -> System.out.println("Opción incorrecta. Intente de nuevo.");
                             }
                         } catch (NumberFormatException e) {
                             System.out.println("Entrada no válida. Por favor, ingrese un número.");
@@ -231,7 +239,7 @@ public class Controllers {
                 System.out.print("Seleccione el tipo de entrada para la entrada " + (i + 1) + ": ");
                 if (scan.hasNextInt()) {
                     choice = scan.nextInt();
-                    scan.nextLine();
+                    scan.nextLine(); // Consumir el valor inválido
                     if (choice >= 1 && choice <= entries.length) {
                         break; // Opción válida
                     } else {
@@ -270,7 +278,7 @@ public class Controllers {
             System.out.println("Seleccione un combo ingresando el número correspondiente:");
             if (scan.hasNextInt()) {
                 selectCombo = scan.nextInt();
-                scan.nextLine();
+                scan.nextLine(); // Consumir el valor inválido
                 if (selectCombo >= 1 && selectCombo <= combos.length) {
                     break;
                 } else {
@@ -286,28 +294,32 @@ public class Controllers {
 
         System.out.println("Opciones:");
         System.out.println("1. Continuar con la compra del boleto");
-        System.out.println("2. Volver");
+        System.out.println("2. Volver a seleccionar otro combo");
 
         int option;
-        while (true) {
+        OUTER: while (true) {
             if (scan.hasNextInt()) {
                 option = scan.nextInt();
-                scan.nextLine();
-                if (option == 1) {
-                    selectedCombo = combos[selectCombo - 1];
-                    break;
-                } else if (option == 2) {
-                    break;
-                } else {
-                    System.out.println("Opción incorrecta. Intente de nuevo.");
-                    displayComboDetails(combos[selectCombo - 1]);
-                    System.out.println("Opciones:");
-                    System.out.println("1. Continuar con la compra del boleto");
-                    System.out.println("2. Volver");
+                scan.nextLine(); // Consumir el valor inválido
+                switch (option) {
+                    case 1 -> {
+                        selectedCombo = combos[selectCombo - 1];
+                        break OUTER;
+                    }
+                    case 2 -> {
+                        break OUTER;
+                    }
+                    default -> {
+                        System.out.println("Opción incorrecta. Intente de nuevo.");
+                        displayComboDetails(combos[selectCombo - 1]);
+                        System.out.println("Opciones:");
+                        System.out.println("1. Continuar con la compra del boleto");
+                        System.out.println("2. Volver");
+                    }
                 }
             } else {
                 System.out.println("Entrada no válida. Por favor, ingrese un número.");
-                scan.nextLine();
+                scan.nextLine(); // Consumir el valor inválido
             }
         }
 
