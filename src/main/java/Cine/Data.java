@@ -3,8 +3,9 @@ package Cine;
 import Cine.Models.*;
 import java.util.Arrays;
 
+// DATOS DEL CINE REPRESENTADOS COMO DATA DE LECTURA (DATOS ESTABLES)
 public class Data {
-    public static Movie[] GetMovies() {
+    public final static Movie[] GetMovies() {
         Movie[] movies = {
                 new Movie("Deadpool Wolverine", "Shawn Levy", 120, "Acción", 15,
                         "Deadpool y Wolverine unen fuerzas en una misión llena de acción y humor. Juntos enfrentan nuevos enemigos y viejos conocidos en una aventura épica.",
@@ -40,7 +41,7 @@ public class Data {
         return movies;
     }
 
-    public static Entry[] GetEntries() {
+    public final static Entry[] GetEntries() {
         Entry[] entries = {
                 new Entry("General", 20),
                 new Entry("Mayores 60 años", 15),
@@ -50,7 +51,7 @@ public class Data {
         return entries;
     };
 
-    public static Combo[] GetCombos() {
+    public final static Combo[] GetCombos() {
         Combo[] combos = {
                 new Combo("Canchita Grande con Sal", 20,
                         "1 Canchita Grande con sal + 2 Gaseosas Medianas"),
