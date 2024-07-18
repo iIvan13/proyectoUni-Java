@@ -274,13 +274,13 @@ public class Controllers {
         }
 
         int selectCombo;
-        OUTER: while (true) {
+        selectComboId: while (true) {
             System.out.println("Seleccione un combo ingresando el número correspondiente:");
             if (scan.hasNextInt()) {
                 selectCombo = scan.nextInt();
                 scan.nextLine(); // Consumir el valor inválido
                 if (selectCombo >= 1 && selectCombo <= combos.length) {
-                    break OUTER;
+                    break selectComboId;
                 } else {
                     System.out.println("Opción incorrecta. Intente de nuevo.");
                 }
@@ -297,14 +297,14 @@ public class Controllers {
         System.out.println("2. Volver a seleccionar otro combo");
 
         int option;
-        OUTER: while (true) {
+        selectComboFinal: while (true) {
             if (scan.hasNextInt()) {
                 option = scan.nextInt();
                 scan.nextLine(); // Consumir el valor inválido
                 switch (option) {
                     case 1 -> {
                         selectedCombo = combos[selectCombo - 1];
-                        break OUTER;
+                        break selectComboFinal;
                     }
                     case 2 -> {
                         System.out.println("Puede seleccionar otro combo.");
