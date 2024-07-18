@@ -274,13 +274,13 @@ public class Controllers {
         }
 
         int selectCombo;
-        while (true) {
+        OUTER: while (true) {
             System.out.println("Seleccione un combo ingresando el número correspondiente:");
             if (scan.hasNextInt()) {
                 selectCombo = scan.nextInt();
                 scan.nextLine(); // Consumir el valor inválido
                 if (selectCombo >= 1 && selectCombo <= combos.length) {
-                    break;
+                    break OUTER;
                 } else {
                     System.out.println("Opción incorrecta. Intente de nuevo.");
                 }
