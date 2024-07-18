@@ -71,7 +71,7 @@ public class Controllers {
         Scanner scan = new Scanner(System.in);
         int movieIndex = -1;
 
-        while (true) {
+        selectMovie: while (true) {
             System.out.println("************************************************************");
             System.out.println("                      Lista de Películas                    ");
             System.out.println("************************************************************");
@@ -107,7 +107,7 @@ public class Controllers {
                                     return movies[movieIndex - 1];
                                 }
                                 case 2 -> {
-                                    break;
+                                    continue selectMovie;
                                 }
                                 default -> System.out.println("Opción incorrecta. Intente de nuevo.");
                             }
@@ -307,7 +307,8 @@ public class Controllers {
                         break OUTER;
                     }
                     case 2 -> {
-                        break OUTER;
+                        System.out.println("Puede seleccionar otro combo.");
+                        return SelectCombo();
                     }
                     default -> {
                         System.out.println("Opción incorrecta. Intente de nuevo.");
